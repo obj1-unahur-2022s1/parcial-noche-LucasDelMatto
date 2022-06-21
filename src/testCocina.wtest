@@ -1,0 +1,39 @@
+import cocina.*
+import comidas.*
+import comensales.*
+
+describe "Test de cocina"{
+	const vegetariano = new Veganos(peso=68500)
+	
+	const provoleta = new Provoleta(peso=190, tieneEspecias = true)
+	const hamburguesaVeggie = new HamburguesaVegana(pan=panMasaMadre, legumbre='garbanzos')
+	const hamburguesaCarneMadre = new HamburguesaCarne(pan=panMasaMadre)
+	const hamburguesaCarneCasera = new HamburguesaCarne(pan=panCasero)
+	
+	const asado = new CorteDeCarne(peso=250, calidad=10)
+	const entrana = new CorteDeCarne(peso=200, calidad=7)
+	const chorizo = new CorteDeCarne(peso=50, calidad=8)
+	
+	const parrillada = new Parrillada(cortesPedidos = [asado,entrana,chorizo])
+	
+	method initialize(){
+		cocina.comidasParrilla([provoleta,hamburguesaVeggie,hamburguesaCarneMadre,hamburguesaCarneCasera,parrillada])
+	}
+	
+	test "No hay buena oferta vegetariana"{
+		assert.notThat(cocina.buenaOfertaVegetariana())
+	}
+	
+	test "Mejor plato carnivoro"{
+		assert.equals(parrillada,cocina.platoFuerteCarnivoro())
+	}
+	
+	test "Comidas que le agradan a un comensal vegetariano"{
+		assert.equals([hamburguesaVeggie],cocina.comidasQueAgradan(vegetariano))
+	}
+	
+	test "Bonus dando error"{
+		cocina.servir(hamburguesaVeggie) /*remuevo el unico plato que le agrada a un vegetariano */
+		assert.throwsExceptionWithMessage('Al comensal no le agrada el plato',{cocina.probarPlatoRandom(vegetariano)})
+	}
+}
