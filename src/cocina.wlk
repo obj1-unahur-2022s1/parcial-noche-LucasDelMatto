@@ -1,3 +1,6 @@
+/*
+ Quizás en ```tieneBuenaOfertaVegetariana()``` convenia usar el valor absoluto abs()
+ */
 import comidas.*
 import comensales.*
 
